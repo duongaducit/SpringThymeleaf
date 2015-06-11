@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TaskJob Manager</title>
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css}" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+<script type="text/javascript" th:src="@{/resources/js/add.js}"></script>
+</head>
+<body>
+
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4">
+			<h1>New/Edit Account</h1>
+			<form action = "#" th:action="@{/saveTask}" method="post">
+				<div class="form-group">
+					<label for="id">Id Task</label>
+					<input name="idTask" th:value = "${task.idTask}" class="form-control" id="id"/>
+				</div>
+				<div class="form-group">
+					<label for="name">Name Task</label>
+					<input name="nameTask" th:value = "${task.nameTask}" class="form-control" id="name"/>
+				</div>
+				<div class="form-group">
+					<label for="time">Time Update</label> <label class="form-control"
+						id="name" th:text = "${task.timeUpdate}"></label>
+				</div>
+				<div class="form-group">
+					<label for="sel1">Status Task:</label>
+					<select id="sel1" name = "statusTask">
+								<option th:value="@{Done!}"
+									th:selected="${task.statusTask == 'Done!'}">Done!</option>
+								<option th:value="@{Doing...}"
+									th:selected="${task.statusTask == 'Doing...'}">Doing...</option>
+								<option th:value="@{Do not.}"
+									th:selected="${task.statusTask == 'Do not.'}">Do not.</option>
+						</select>
+				</div>
+				<div class="form-group">
+					<label>Public Task: </label>
+					<input type="checkbox" th:checked="${task.publicTask}" name = "publicTask"/>
+				</div>
+				<input type="submit" class="btn btn-success" value="Save"/>
+			</form>
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TaskJob Manager</title>
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css}" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" th:href="@{/resources/css/style.css}" />
+<script type="text/javascript" th:src="@{/resources/js/add.js}"></script>
+</head>
+<body>
+	<div class="panel-group">
+		<div class="panel-footers">
+			<label class="title">Task List</label>
+		</div>
+		<!-- footer 1 -->
+		<div class="panel-footer">
+			<div class="row">
+				<div class="col-sm-4">
+					<a th:href="newTask" class="btn btn-primary btn-sm active"
+						role="button">Add</a>
+				</div>
+				<div class="col-sm-4">
+					<span class="label-total"
+						th:text="|record ${currentRecord} in total ${maxRecord}|"></span>
+				</div>
+				<div class="col-sm-4">
+					<select id="selectRecord" onchange="selectRecord(this);">
+						<option th:value="3" th:text="3"
+							th:selected="${recordInPage == 3}">!</option>
+						<option th:value="5" th:text="5"
+							th:selected="${recordInPage == 5}">!</option>
+						<option th:value="10" th:text="10"
+							th:selected="${recordInPage == 10}">!</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<table class="table table-bordered">
+				<tr>
+					<th><a th:href="@{'/sortById'}"><button value="idTask"
+								class="th-button">Id Task</button> </a></th>
+					<th><a th:href="@{'/sortByName'}"><button value="nameTask"
+								class="th-button">Name Task</button> </a></th>
+					<th>Time Update</th>
+					<th>Status Task</th>
+					<th>Public Task</th>
+					<th>Acction Task</th>
+				</tr>
+
+				<tbody>
+					<tr th:each="task : ${list}">
+						<td th:text="${task.idTask}">Id</td>
+
+						<td th:text="${task.nameTask}">name</td>
+						<td th:text="${task.timeUpdate}">time</td>
+						<td><select id="select"
+							th:onchange="'javascript:changeStatus(\'' + ${task.idTask} + '\',this);'">
+								<option th:value="@{Done!}"
+									th:selected="${task.statusTask == 'Done!'}">Done!</option>
+								<option th:value="@{Doing...}"
+									th:selected="${task.statusTask == 'Doing...'}">Doing...</option>
+								<option th:value="@{Do not.}"
+									th:selected="${task.statusTask == 'Do not.'}">Do not.</option>
+						</select></td>
+						<td><input type="checkbox" th:checked="${task.publicTask}"
+							th:onclick="'javascript:clickChange(\'' + ${task.idTask} +'\')'" /></td>
+						<td><a th:href="@{'/editTask?idTask=' + ${task.idTask}}"><span
+								class="glyphicon glyphicon-edit"></span></a>
+							&nbsp;&nbsp;&nbsp;&nbsp; <a
+							th:href="@{'deleteTask?idTask=' + ${task.idTask}}"
+							onclick="clickDelete()"><span
+								class="glyphicon glyphicon-remove"></span> </a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="panel-footer">
+
+			<div class="row">
+				<div class="col-sm-4">
+					<ul class="pagination"
+						th:each="i : ${#numbers.sequence( 1, maxPage)}">
+						<li th:class="${currentPage == (i-1)} ? 'active'"><a
+							th:href="@{'selectPage?page=' + ${i-1}}"><label
+								th:text="${i}">i</label></a></li>
+					</ul>
+				</div>
+				<div class="col-sm-4">
+					<form action="#" th:action="@{/search}" method="post"
+						class="form-inline">
+						<input type="text" name="keyword" /> <input type="submit"
+							value="Search" class="btn btn-success btn-sm" />
+					</form>
+				</div>
+				<div class="col-sm-4">
+					<a th:href="@{/saveJob}" class="newTask" onclick="saveSQL()"><button>Save</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
